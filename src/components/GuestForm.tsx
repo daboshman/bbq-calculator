@@ -50,12 +50,12 @@ function GuestStepper({ emoji, labelKey, descKey, value, onChange, max, badge }:
         </div>
       </div>
 
-      {/* dir="ltr" keeps − on left and + on right in both RTL and LTR layouts */}
-      <div className="flex items-center justify-between gap-2" dir="ltr">
+      {/* rtl:order-* swaps visual position of buttons without fighting CSS direction */}
+      <div className="flex items-center justify-between gap-2">
         <button
           onClick={decrement}
           disabled={value === 0}
-          className="w-9 h-9 rounded-xl bg-card-border hover:bg-ember/30 text-cream disabled:opacity-25 transition-all duration-150 flex items-center justify-center font-bold text-lg leading-none"
+          className="order-1 rtl:order-3 w-9 h-9 rounded-xl bg-card-border hover:bg-ember/30 text-cream disabled:opacity-25 transition-all duration-150 flex items-center justify-center font-bold text-lg leading-none"
           aria-label="-"
         >
           −
@@ -70,13 +70,13 @@ function GuestStepper({ emoji, labelKey, descKey, value, onChange, max, badge }:
             const v = parseInt(e.target.value, 10)
             if (!isNaN(v)) onChange(Math.max(0, max !== undefined ? Math.min(max, v) : v))
           }}
-          className="flex-1 bg-transparent text-center text-cream font-bold text-xl font-rubik focus:outline-none"
+          className="order-2 flex-1 bg-transparent text-center text-cream font-bold text-xl font-rubik focus:outline-none"
         />
 
         <button
           onClick={increment}
           disabled={max !== undefined && value >= max}
-          className="w-9 h-9 rounded-xl bg-card-border hover:bg-ember/30 text-cream disabled:opacity-25 transition-all duration-150 flex items-center justify-center font-bold text-lg leading-none"
+          className="order-3 rtl:order-1 w-9 h-9 rounded-xl bg-card-border hover:bg-ember/30 text-cream disabled:opacity-25 transition-all duration-150 flex items-center justify-center font-bold text-lg leading-none"
           aria-label="+"
         >
           +
