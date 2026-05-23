@@ -155,7 +155,10 @@ export const translations = {
     shareTitle: 'רשימת קניות משותפת',
     sharedBy: 'שותף על ידי',
     shareReadOnly: 'רשימה זו היא לצפייה בלבד',
-    shareSuccess: 'הרשימה נשמרה! הנה הקישור לשיתוף:',
+    shareSuccess: 'הרשימה נשמרה! שתף אותה:',
+    shareViaWhatsApp: 'שלח בוואטסאפ',
+    shareViaEmail: 'שלח במייל',
+    shareMessageText: 'הנה רשימת הקניות למנגל שלנו 🔥',
 
     // Loading / errors
     loading: 'טוען...',
@@ -300,7 +303,10 @@ export const translations = {
     shareTitle: 'Shared Shopping List',
     sharedBy: 'Shared by',
     shareReadOnly: 'This list is read-only',
-    shareSuccess: 'List saved! Here is your share link:',
+    shareSuccess: 'List saved! Share it:',
+    shareViaWhatsApp: 'Send via WhatsApp',
+    shareViaEmail: 'Send via Email',
+    shareMessageText: 'Here is our BBQ shopping list 🔥',
 
     loading: 'Loading...',
     errorGeneric: 'An error occurred. Please try again.',
@@ -444,7 +450,10 @@ export const translations = {
     shareTitle: 'Lista de compras compartida',
     sharedBy: 'Compartido por',
     shareReadOnly: 'Esta lista es de solo lectura',
-    shareSuccess: '¡Lista guardada! Aquí está tu enlace para compartir:',
+    shareSuccess: '¡Lista guardada! Compártela:',
+    shareViaWhatsApp: 'Enviar por WhatsApp',
+    shareViaEmail: 'Enviar por Email',
+    shareMessageText: 'Aquí está nuestra lista de compras para el BBQ 🔥',
 
     loading: 'Cargando...',
     errorGeneric: 'Ocurrió un error. Inténtalo de nuevo.',

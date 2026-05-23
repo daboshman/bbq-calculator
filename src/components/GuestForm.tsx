@@ -51,8 +51,8 @@ function GuestStepper({ emoji, labelKey, descKey, value, onChange, max, badge }:
         </div>
       </div>
 
-      {/* dir="ltr" keeps − left and + right regardless of document direction */}
-      <div className="flex items-center justify-between gap-2" dir="ltr">
+      {/* rtl:flex-row-reverse reverses the RTL flex axis back to LTR for the stepper controls */}
+      <div className="flex rtl:flex-row-reverse items-center justify-between gap-2">
         <button
           onClick={decrement}
           disabled={value === 0}
@@ -102,7 +102,7 @@ function PortionRow({ label, value, unit, step, min, onChange }: PortionRowProps
   return (
     <div className="flex items-center justify-between gap-2 py-2 border-b border-card-border/40 last:border-0">
       <span className="text-cream/70 text-xs font-rubik flex-1">{label}</span>
-      <div className="flex items-center gap-2" dir="ltr">
+      <div className="flex rtl:flex-row-reverse items-center gap-2">
         <button
           onClick={() => onChange(Math.max(min, parseFloat((value - step).toFixed(2))))}
           disabled={value <= min}

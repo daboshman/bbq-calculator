@@ -117,19 +117,33 @@ export default function ShoppingList({
         </div>
       )}
 
-      {/* Share URL */}
+      {/* Share options */}
       {shareUrl && !readOnly && (
         <div className="bg-green-950/50 border border-green-700/40 rounded-2xl px-4 py-3 mb-5 animate-slide-up">
-          <p className="text-green-400 text-xs font-rubik mb-2">{t('shareSuccess')}</p>
-          <div className="flex items-center gap-2">
-            <span className="text-green-300/80 text-xs font-rubik flex-1 break-all leading-relaxed">
-              {shareUrl}
-            </span>
+          <p className="text-green-400 text-xs font-rubik mb-3">{t('shareSuccess')}</p>
+          <div className="flex flex-wrap gap-2">
+            <a
+              href={`https://wa.me/?text=${encodeURIComponent(t('shareMessageText') + '\n' + shareUrl)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-2 bg-[#25D366]/20 hover:bg-[#25D366]/30 text-[#25D366] rounded-xl text-xs font-rubik transition-colors"
+            >
+              <span>📱</span>
+              <span>{t('shareViaWhatsApp')}</span>
+            </a>
+            <a
+              href={`mailto:?subject=${encodeURIComponent(t('shareMessageText'))}&body=${encodeURIComponent(t('shareMessageText') + '\n' + shareUrl)}`}
+              className="flex items-center gap-1.5 px-3 py-2 bg-blue-900/30 hover:bg-blue-900/50 text-blue-300 rounded-xl text-xs font-rubik transition-colors"
+            >
+              <span>📧</span>
+              <span>{t('shareViaEmail')}</span>
+            </a>
             <button
               onClick={handleCopy}
-              className="text-green-400 hover:text-green-300 text-xs font-rubik whitespace-nowrap transition-colors px-2 py-1 rounded-lg hover:bg-green-900/30"
+              className="flex items-center gap-1.5 px-3 py-2 bg-green-900/30 hover:bg-green-900/50 text-green-300 rounded-xl text-xs font-rubik transition-colors"
             >
-              {copied ? t('linkCopied') : t('copyLink')}
+              <span>{copied ? '✓' : '🔗'}</span>
+              <span>{copied ? t('linkCopied') : t('copyLink')}</span>
             </button>
           </div>
         </div>

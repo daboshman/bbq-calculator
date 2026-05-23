@@ -107,7 +107,19 @@ export function useFirestore(user: User | null) {
         createdAt: now,
       })
 
-      await fetchLists()
+      // Optimistically add to local state — serverTimestamp() pending writes
+      // cause an immediate getDocs to return 0 results, wiping the list.
+      const savedAt = new Date()
+      const newEntry: SavedList = {
+        id: docRef.id,
+        name,
+        guestCounts,
+        items,
+        shareId,
+        createdAt: savedAt,
+        updatedAt: savedAt,
+      }
+      setSavedLists((prev) => [newEntry, ...prev])
       showToast('listSaved')
       return shareId
     } catch {
