@@ -5,7 +5,10 @@
       "Bash(npx tsc *)",
       "Bash(npm run *)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(node -e \"require\\('dotenv'\\).config\\(\\); console.log\\('KEY:', process.env.VITE_FIREBASE_API_KEY ? 'FOUND' : 'MISSING'\\)\")",
+      "PowerShell($content = Get-Content \"c:\\\\claude projects\\\\bbq calculator\\\\dist\\\\assets\\\\index-vBbG_RuW.js\" -Raw; if \\($content -match \"apiKey\"\\) { $idx = $content.IndexOf\\(\"apiKey\"\\); Write-Output $content.Substring\\([Math]::Max\\(0,$idx-5\\), 120\\) } else { Write-Output \"apiKey NOT FOUND in new bundle\" })",
+      "PowerShell($bytes = [System.IO.File]::ReadAllBytes\\(\"c:\\\\claude projects\\\\bbq calculator\\\\.env\"\\); Write-Output \"First 3 bytes: $\\($bytes[0]\\) $\\($bytes[1]\\) $\\($bytes[2]\\)\"; $text = [System.IO.File]::ReadAllText\\(\"c:\\\\claude projects\\\\bbq calculator\\\\.env\", [System.Text.Encoding]::UTF8\\); Write-Output \"First 30 chars: '$\\($text.Substring\\(0, [Math]::Min\\(30, $text.Length\\)\\)\\)'\"; Write-Output \"Line endings: $\\(if \\($text.Contains\\(\"`r`n\"\\)\\) { 'CRLF \\(Windows\\)' } else { 'LF \\(Unix\\)' }\\)\")"
     ]
   }
 }
