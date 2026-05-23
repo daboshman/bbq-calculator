@@ -1,12 +1,4 @@
 {
-  "indexes": [
-    {
-      "collectionGroup": "savedLists",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "updatedAt", "order": "DESCENDING" }
-      ]
-    }
-  ],
+  "indexes": [],
   "fieldOverrides": []
 }

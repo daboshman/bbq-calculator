@@ -50,7 +50,8 @@ function GuestStepper({ emoji, labelKey, descKey, value, onChange, max, badge }:
         </div>
       </div>
 
-      <div className="flex items-center justify-between gap-2">
+      {/* dir="ltr" keeps − on left and + on right in both RTL and LTR layouts */}
+      <div className="flex items-center justify-between gap-2" dir="ltr">
         <button
           onClick={decrement}
           disabled={value === 0}
