@@ -89,8 +89,12 @@ function LoadingScreen() {
 }
 
 // ── Main authenticated app ─────────────────────────────────────────────────────
-function AuthenticatedApp() {
-  const { user, logout } = useAuth()
+interface AuthenticatedAppProps {
+  user: NonNullable<ReturnType<typeof useAuth>['user']>
+  logout: () => Promise<void>
+}
+
+function AuthenticatedApp({ user, logout }: AuthenticatedAppProps) {
   const { t } = useI18n()
 
   const { items, hasCalculated, calculate, updateItemQty, resetItemQty, togglePurchased, loadItems, resetAll } =
@@ -103,8 +107,6 @@ function AuthenticatedApp() {
   const [showSaveModal, setShowSaveModal] = useState(false)
   const [shareUrl, setShareUrl] = useState<string | null>(null)
   const [shareLoading, setShareLoading] = useState(false)
-
-  if (!user) return null
 
   const handleCalculate = (guestCounts: GuestCounts) => {
     setGuests(guestCounts)
@@ -220,7 +222,7 @@ function AuthenticatedApp() {
 // ── App root ───────────────────────────────────────────────────────────────────
 function AppContent() {
   const shareId = getShareId()
-  const { user, loading, error, signInWithGoogle } = useAuth()
+  const { user, loading, error, signInWithGoogle, logout } = useAuth()
 
   // Public share view — no auth needed
   if (shareId) {
@@ -233,7 +235,7 @@ function AppContent() {
     return <LoginPage onSignIn={signInWithGoogle} error={error} />
   }
 
-  return <AuthenticatedApp />
+  return <AuthenticatedApp user={user} logout={logout} />
 }
 
 export default function App() {
