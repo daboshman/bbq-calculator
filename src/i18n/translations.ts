@@ -39,6 +39,10 @@ export const translations = {
     removeGuest: 'הסר',
     guestSummary: 'סה״כ: {adults} מבוגרים, {kids} ילדים, {vegetarians} צמחונים, {vegans} טבעונים, {allergy} עם אלרגיות',
 
+    // Venue
+    outdoor: 'חוץ 🌳',
+    indoor: 'בית 🏠',
+
     // Meat portions
     portionsTitle: 'כמויות בשר לאורח',
     portionsShow: 'התאם כמויות בשר',
@@ -47,6 +51,15 @@ export const translations = {
     chickenPerKid: 'פרגיות לילד',
     steakPerAdult: 'סטייק למבוגר (גרם)',
     steakPerKid: 'סטייק לילד (גרם)',
+
+    // Drink portions
+    drinkPortionsTitle: 'כמויות שתייה לאורח',
+    drinkPortionsShow: 'התאם כמויות שתייה',
+    waterPerPerson: 'מים לאדם (ליטר)',
+    softDrinksPerPerson: 'שתייה קלה לאדם (ליטר)',
+    beerPerAdult: 'בירה למבוגר (בקבוקים)',
+    winePerAdult: 'יין למבוגר (בקבוקים)',
+    spiritsPerAdult: 'חריפים למבוגר (בקבוקים)',
 
     // Validation
     errorMinGuests: 'יש להזין לפחות אורח אחד',
@@ -88,6 +101,8 @@ export const translations = {
     water: 'מים',
     softDrinks: 'שתייה קלה',
     beer: 'בירה',
+    wine: 'יין',
+    spirits: 'וויסקי / אוזו',
 
     // Items - Equipment
     charcoal: 'פחמים',
@@ -185,6 +200,10 @@ export const translations = {
     guestSummary:
       'Total: {adults} adults, {kids} kids, {vegetarians} vegetarians, {vegans} vegans, {allergy} with allergies',
 
+    // Venue
+    outdoor: 'Outdoor 🌳',
+    indoor: 'Indoor 🏠',
+
     // Meat portions
     portionsTitle: 'Meat per guest',
     portionsShow: 'Customize meat portions',
@@ -193,6 +212,15 @@ export const translations = {
     chickenPerKid: 'Chicken per kid',
     steakPerAdult: 'Steak per adult (g)',
     steakPerKid: 'Steak per kid (g)',
+
+    // Drink portions
+    drinkPortionsTitle: 'Drinks per guest',
+    drinkPortionsShow: 'Customize drinks',
+    waterPerPerson: 'Water per person (L)',
+    softDrinksPerPerson: 'Soft drinks per person (L)',
+    beerPerAdult: 'Beer per adult (bottles)',
+    winePerAdult: 'Wine per adult (bottles)',
+    spiritsPerAdult: 'Spirits per adult (bottles)',
 
     errorMinGuests: 'Please enter at least 1 guest',
     errorMaxGuests: 'Maximum 200 guests',
@@ -226,6 +254,8 @@ export const translations = {
     water: 'Water',
     softDrinks: 'Soft Drinks',
     beer: 'Beer',
+    wine: 'Wine',
+    spirits: 'Whiskey / Ouzo',
 
     charcoal: 'Charcoal',
     lighterFluid: 'Lighter Fluid',
@@ -313,6 +343,10 @@ export const translations = {
     guestSummary:
       'Total: {adults} adultos, {kids} niños, {vegetarians} vegetarianos, {vegans} veganos, {allergy} con alergias',
 
+    // Venue
+    outdoor: 'Exterior 🌳',
+    indoor: 'Interior 🏠',
+
     // Meat portions
     portionsTitle: 'Carne por invitado',
     portionsShow: 'Personalizar porciones de carne',
@@ -321,6 +355,15 @@ export const translations = {
     chickenPerKid: 'Pollo por niño',
     steakPerAdult: 'Filete por adulto (g)',
     steakPerKid: 'Filete por niño (g)',
+
+    // Drink portions
+    drinkPortionsTitle: 'Bebidas por invitado',
+    drinkPortionsShow: 'Personalizar bebidas',
+    waterPerPerson: 'Agua por persona (L)',
+    softDrinksPerPerson: 'Refrescos por persona (L)',
+    beerPerAdult: 'Cerveza por adulto (botellas)',
+    winePerAdult: 'Vino por adulto (botellas)',
+    spiritsPerAdult: 'Spirits por adulto (botellas)',
 
     errorMinGuests: 'Por favor ingresa al menos 1 invitado',
     errorMaxGuests: 'Máximo 200 invitados',
@@ -355,6 +398,8 @@ export const translations = {
     water: 'Agua',
     softDrinks: 'Refrescos',
     beer: 'Cerveza',
+    wine: 'Vino',
+    spirits: 'Whisky / Ouzo',
 
     charcoal: 'Carbón',
     lighterFluid: 'Líquido encendedor',

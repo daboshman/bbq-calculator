@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import type { GuestCounts, ShoppingItem, Category } from '../types'
-import { defaultMeatPortions } from '../types'
+import { defaultMeatPortions, defaultDrinkPortions } from '../types'
 
 function makeItem(
   id: string,
@@ -22,8 +22,10 @@ function makeItem(
 }
 
 export function calculateItems(guests: GuestCounts): ShoppingItem[] {
-  const { adults, kids, vegetarians, vegans, allergyGuests, portions } = guests
+  const { adults, kids, vegetarians, vegans, allergyGuests, portions, drinkPortions } = guests
   const p = { ...defaultMeatPortions, ...portions }
+  const dp = { ...defaultDrinkPortions, ...drinkPortions }
+  const isOutdoor = guests.isOutdoor !== false
   const allergyCount = allergyGuests.length
   const total = adults + kids
 
@@ -94,29 +96,27 @@ export function calculateItems(guests: GuestCounts): ShoppingItem[] {
   if (cornQty > 0) items.push(makeItem('corn', 'veggie', 'corn', cornQty, 'unitPieces'))
 
   // ── DRINKS (all guests) ───────────────────────────────────────────────────
-  items.push(makeItem('water', 'drinks', 'water', grandTotal * 0.5, 'unitLiters'))
-  items.push(
-    makeItem(
-      'softDrinks',
-      'drinks',
-      'softDrinks',
-      Math.round(grandTotal * 0.33 * 10) / 10,
-      'unitLiters'
-    )
-  )
-  if (adults + allergyAdults > 0)
-    items.push(makeItem('beer', 'drinks', 'beer', adults + allergyAdults, 'unitBottles'))
+  items.push(makeItem('water', 'drinks', 'water', grandTotal * dp.waterPerPerson, 'unitLiters'))
+  if (dp.softDrinksPerPerson > 0)
+    items.push(makeItem('softDrinks', 'drinks', 'softDrinks', grandTotal * dp.softDrinksPerPerson, 'unitLiters'))
+  const adultDrinkers = adults + allergyAdults
+  if (adultDrinkers > 0 && dp.beerPerAdult > 0)
+    items.push(makeItem('beer', 'drinks', 'beer', Math.ceil(adultDrinkers * dp.beerPerAdult), 'unitBottles'))
+  if (adultDrinkers > 0 && dp.winePerAdult > 0)
+    items.push(makeItem('wine', 'drinks', 'wine', Math.ceil(adultDrinkers * dp.winePerAdult), 'unitBottles'))
+  if (adultDrinkers > 0 && dp.spiritsPerAdult > 0)
+    items.push(makeItem('spirits', 'drinks', 'spirits', Math.ceil(adultDrinkers * dp.spiritsPerAdult), 'unitBottles'))
 
-  // ── EQUIPMENT (all guests) ────────────────────────────────────────────────
-  const charcoalQty = Math.max(2, Math.ceil(grandTotal / 5))
-  items.push(makeItem('charcoal', 'equipment', 'charcoal', charcoalQty, 'unitKg'))
-
-  const lighterQty = Math.max(1, Math.ceil(grandTotal / 20))
-  items.push(makeItem('lighterFluid', 'equipment', 'lighterFluid', lighterQty, 'unitBottles'))
-
-  items.push(makeItem('plates', 'equipment', 'plates', grandTotal * 3, 'unitPieces'))
-  items.push(makeItem('cutlery', 'equipment', 'cutlery', grandTotal * 2, 'unitSets'))
-  items.push(makeItem('napkins', 'equipment', 'napkins', grandTotal * 10, 'unitPieces'))
+  // ── EQUIPMENT ─────────────────────────────────────────────────────────────
+  if (isOutdoor) {
+    const charcoalQty = Math.max(2, Math.ceil(grandTotal / 5))
+    items.push(makeItem('charcoal', 'equipment', 'charcoal', charcoalQty, 'unitKg'))
+    const lighterQty = Math.max(1, Math.ceil(grandTotal / 20))
+    items.push(makeItem('lighterFluid', 'equipment', 'lighterFluid', lighterQty, 'unitBottles'))
+    items.push(makeItem('plates', 'equipment', 'plates', grandTotal * 3, 'unitPieces'))
+    items.push(makeItem('cutlery', 'equipment', 'cutlery', grandTotal * 2, 'unitSets'))
+    items.push(makeItem('napkins', 'equipment', 'napkins', grandTotal * 10, 'unitPieces'))
+  }
 
   return items
 }

@@ -17,13 +17,31 @@ export const defaultMeatPortions: MeatPortions = {
   steakPerKid: 150,
 }
 
+export interface DrinkPortions {
+  waterPerPerson: number
+  softDrinksPerPerson: number
+  beerPerAdult: number
+  winePerAdult: number
+  spiritsPerAdult: number
+}
+
+export const defaultDrinkPortions: DrinkPortions = {
+  waterPerPerson: 0.5,
+  softDrinksPerPerson: 0.5,
+  beerPerAdult: 1,
+  winePerAdult: 0,
+  spiritsPerAdult: 0,
+}
+
 export interface GuestCounts {
   adults: number
   kids: number
   vegetarians: number
   vegans: number
   allergyGuests: AllergyGuest[]
+  isOutdoor?: boolean
   portions?: MeatPortions
+  drinkPortions?: DrinkPortions
 }
 
 export type Category = 'meat' | 'sides' | 'veggie' | 'drinks' | 'equipment'
