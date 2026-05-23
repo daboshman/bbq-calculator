@@ -3,12 +3,27 @@ export interface AllergyGuest {
   note: string
 }
 
+export interface MeatPortions {
+  chickenPerAdult: number
+  chickenPerKid: number
+  steakPerAdult: number
+  steakPerKid: number
+}
+
+export const defaultMeatPortions: MeatPortions = {
+  chickenPerAdult: 3,
+  chickenPerKid: 2,
+  steakPerAdult: 300,
+  steakPerKid: 150,
+}
+
 export interface GuestCounts {
   adults: number
   kids: number
   vegetarians: number
   vegans: number
   allergyGuests: AllergyGuest[]
+  portions?: MeatPortions
 }
 
 export type Category = 'meat' | 'sides' | 'veggie' | 'drinks' | 'equipment'

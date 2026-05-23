@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useI18n } from '../i18n/context'
-import type { GuestCounts, AllergyGuest } from '../types'
+import type { GuestCounts, AllergyGuest, MeatPortions } from '../types'
+import { defaultMeatPortions } from '../types'
 import type { TranslationKey } from '../i18n/translations'
 
 interface Props {
@@ -86,11 +87,51 @@ function GuestStepper({ emoji, labelKey, descKey, value, onChange, max, badge }:
   )
 }
 
+// ── Compact portion row ────────────────────────────────────────────────────────
+interface PortionRowProps {
+  label: string
+  value: number
+  unit: string
+  step: number
+  min: number
+  onChange: (v: number) => void
+}
+
+function PortionRow({ label, value, unit, step, min, onChange }: PortionRowProps) {
+  return (
+    <div className="flex items-center justify-between gap-2 py-2 border-b border-card-border/40 last:border-0">
+      <span className="text-cream/70 text-xs font-rubik flex-1">{label}</span>
+      <div className="flex items-center gap-2 order-1 rtl:flex-row-reverse">
+        <button
+          onClick={() => onChange(Math.max(min, value - step))}
+          disabled={value <= min}
+          className="w-7 h-7 rounded-lg bg-card-border hover:bg-ember/30 text-cream disabled:opacity-25 transition-all flex items-center justify-center font-bold text-sm leading-none"
+        >
+          −
+        </button>
+        <span className="w-16 text-center text-cream font-bold text-sm font-rubik">
+          {value} <span className="text-cream/40 font-normal">{unit}</span>
+        </span>
+        <button
+          onClick={() => onChange(value + step)}
+          className="w-7 h-7 rounded-lg bg-card-border hover:bg-ember/30 text-cream transition-all flex items-center justify-center font-bold text-sm leading-none"
+        >
+          +
+        </button>
+      </div>
+    </div>
+  )
+}
+
 // ── Main component ─────────────────────────────────────────────────────────────
 export default function GuestForm({ onCalculate, initialGuests }: Props) {
   const { t } = useI18n()
   const [guests, setGuests] = useState<GuestCounts>(initialGuests ?? defaultGuests)
   const [errors, setErrors] = useState<TranslationKey[]>([])
+  const [portions, setPortions] = useState<MeatPortions>(
+    initialGuests?.portions ?? { ...defaultMeatPortions }
+  )
+  const [showPortions, setShowPortions] = useState(false)
 
   const total = guests.adults + guests.kids
 
@@ -128,8 +169,12 @@ export default function GuestForm({ onCalculate, initialGuests }: Props) {
     return errs.length === 0
   }
 
+  function updatePortion<K extends keyof MeatPortions>(field: K, value: number) {
+    setPortions((prev) => ({ ...prev, [field]: value }))
+  }
+
   function handleSubmit() {
-    if (validate()) onCalculate(guests)
+    if (validate()) onCalculate({ ...guests, portions })
   }
 
   const hasGuests = total + guests.allergyGuests.length > 0
@@ -227,6 +272,56 @@ export default function GuestForm({ onCalculate, initialGuests }: Props) {
           })}
         </div>
       )}
+
+      {/* Meat portion customization */}
+      <div className="mb-5">
+        <button
+          onClick={() => setShowPortions((v) => !v)}
+          className="flex items-center gap-2 text-cream/50 hover:text-cream/80 text-xs font-rubik transition-colors w-full"
+        >
+          <span className="text-base">🍖</span>
+          <span>{showPortions ? t('portionsHide') : t('portionsShow')}</span>
+          <span className="ml-auto rtl:ml-0 rtl:mr-auto text-cream/30">{showPortions ? '▲' : '▼'}</span>
+        </button>
+
+        {showPortions && (
+          <div className="mt-3 bg-charcoal rounded-2xl px-4 py-2 animate-fade-in">
+            <p className="text-ember text-xs font-rubik font-semibold mb-2">{t('portionsTitle')}</p>
+            <PortionRow
+              label={t('chickenPerAdult')}
+              value={portions.chickenPerAdult}
+              unit={t('unitPieces')}
+              step={1}
+              min={1}
+              onChange={(v) => updatePortion('chickenPerAdult', v)}
+            />
+            <PortionRow
+              label={t('chickenPerKid')}
+              value={portions.chickenPerKid}
+              unit={t('unitPieces')}
+              step={1}
+              min={1}
+              onChange={(v) => updatePortion('chickenPerKid', v)}
+            />
+            <PortionRow
+              label={t('steakPerAdult')}
+              value={portions.steakPerAdult}
+              unit={t('unitGrams')}
+              step={50}
+              min={50}
+              onChange={(v) => updatePortion('steakPerAdult', v)}
+            />
+            <PortionRow
+              label={t('steakPerKid')}
+              value={portions.steakPerKid}
+              unit={t('unitGrams')}
+              step={50}
+              min={50}
+              onChange={(v) => updatePortion('steakPerKid', v)}
+            />
+          </div>
+        )}
+      </div>
 
       {/* Validation errors */}
       {errors.map((err) => (

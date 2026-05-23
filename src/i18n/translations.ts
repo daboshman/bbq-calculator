@@ -39,6 +39,15 @@ export const translations = {
     removeGuest: 'הסר',
     guestSummary: 'סה״כ: {adults} מבוגרים, {kids} ילדים, {vegetarians} צמחונים, {vegans} טבעונים, {allergy} עם אלרגיות',
 
+    // Meat portions
+    portionsTitle: 'כמויות בשר לאורח',
+    portionsShow: 'התאם כמויות בשר',
+    portionsHide: 'הסתר',
+    chickenPerAdult: 'פרגיות למבוגר',
+    chickenPerKid: 'פרגיות לילד',
+    steakPerAdult: 'סטייק למבוגר (גרם)',
+    steakPerKid: 'סטייק לילד (גרם)',
+
     // Validation
     errorMinGuests: 'יש להזין לפחות אורח אחד',
     errorMaxGuests: 'מקסימום 200 אורחים',
@@ -176,6 +185,15 @@ export const translations = {
     guestSummary:
       'Total: {adults} adults, {kids} kids, {vegetarians} vegetarians, {vegans} vegans, {allergy} with allergies',
 
+    // Meat portions
+    portionsTitle: 'Meat per guest',
+    portionsShow: 'Customize meat portions',
+    portionsHide: 'Hide',
+    chickenPerAdult: 'Chicken per adult',
+    chickenPerKid: 'Chicken per kid',
+    steakPerAdult: 'Steak per adult (g)',
+    steakPerKid: 'Steak per kid (g)',
+
     errorMinGuests: 'Please enter at least 1 guest',
     errorMaxGuests: 'Maximum 200 guests',
     errorVegExceedTotal: 'Vegetarians + Vegans cannot exceed total Adults + Kids',
@@ -294,6 +312,15 @@ export const translations = {
     removeGuest: 'Eliminar',
     guestSummary:
       'Total: {adults} adultos, {kids} niños, {vegetarians} vegetarianos, {vegans} veganos, {allergy} con alergias',
+
+    // Meat portions
+    portionsTitle: 'Carne por invitado',
+    portionsShow: 'Personalizar porciones de carne',
+    portionsHide: 'Ocultar',
+    chickenPerAdult: 'Pollo por adulto',
+    chickenPerKid: 'Pollo por niño',
+    steakPerAdult: 'Filete por adulto (g)',
+    steakPerKid: 'Filete por niño (g)',
 
     errorMinGuests: 'Por favor ingresa al menos 1 invitado',
     errorMaxGuests: 'Máximo 200 invitados',

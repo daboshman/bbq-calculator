@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import type { GuestCounts, ShoppingItem, Category } from '../types'
+import { defaultMeatPortions } from '../types'
 
 function makeItem(
   id: string,
@@ -21,7 +22,8 @@ function makeItem(
 }
 
 export function calculateItems(guests: GuestCounts): ShoppingItem[] {
-  const { adults, kids, vegetarians, vegans, allergyGuests } = guests
+  const { adults, kids, vegetarians, vegans, allergyGuests, portions } = guests
+  const p = { ...defaultMeatPortions, ...portions }
   const allergyCount = allergyGuests.length
   const total = adults + kids
 
@@ -54,10 +56,10 @@ export function calculateItems(guests: GuestCounts): ShoppingItem[] {
   const items: ShoppingItem[] = []
 
   // ── MEAT ──────────────────────────────────────────────────────────────────
-  const chickenQty = meatAdults * 3 + meatKids * 2
+  const chickenQty = meatAdults * p.chickenPerAdult + meatKids * p.chickenPerKid
   if (chickenQty > 0) items.push(makeItem('chicken', 'meat', 'chicken', chickenQty, 'unitPieces'))
 
-  const steakQty = meatAdults * 300 + meatKids * 150
+  const steakQty = meatAdults * p.steakPerAdult + meatKids * p.steakPerKid
   if (steakQty > 0) items.push(makeItem('steak', 'meat', 'steak', steakQty, 'unitGrams'))
 
   // ── SIDES ─────────────────────────────────────────────────────────────────
