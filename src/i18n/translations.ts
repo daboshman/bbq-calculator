@@ -149,6 +149,8 @@ export const translations = {
 
     // Save modal
     saveModalTitle: 'שמור רשימה',
+    saveModalNew: 'רשימה חדשה',
+    saveModalOverwrite: 'דרוס קיימת',
     listName: 'שם הרשימה',
     listNamePlaceholder: 'לדוגמה: מנגל יום שישי',
     saveConfirm: 'שמור',
@@ -311,6 +313,8 @@ export const translations = {
     allergyGuest: 'Guest',
 
     saveModalTitle: 'Save List',
+    saveModalNew: 'New list',
+    saveModalOverwrite: 'Overwrite existing',
     listName: 'List Name',
     listNamePlaceholder: 'e.g. Friday BBQ',
     saveConfirm: 'Save',
@@ -470,6 +474,8 @@ export const translations = {
     allergyGuest: 'Invitado',
 
     saveModalTitle: 'Guardar lista',
+    saveModalNew: 'Nueva lista',
+    saveModalOverwrite: 'Sobreescribir',
     listName: 'Nombre de la lista',
     listNamePlaceholder: 'ej. BBQ del viernes',
     saveConfirm: 'Guardar',

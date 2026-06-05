@@ -20,13 +20,32 @@ function getShareId(): string | null {
 
 // ── Save / Share modal ─────────────────────────────────────────────────────────
 interface SaveModalProps {
-  onConfirm: (name: string) => void
+  onConfirm: (name: string, existingId?: string) => void
   onCancel: () => void
+  savedLists: SavedList[]
 }
 
-function SaveModal({ onConfirm, onCancel }: SaveModalProps) {
+function SaveModal({ onConfirm, onCancel, savedLists }: SaveModalProps) {
   const { t } = useI18n()
+  const [mode, setMode] = useState<'new' | 'overwrite'>('new')
   const [name, setName] = useState('')
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+
+  function selectList(list: SavedList) {
+    setSelectedId(list.id)
+    setName(list.name)
+  }
+
+  function handleConfirm() {
+    if (!name.trim()) return
+    if (mode === 'overwrite' && selectedId) {
+      onConfirm(name.trim(), selectedId)
+    } else {
+      onConfirm(name.trim())
+    }
+  }
+
+  const canSubmit = name.trim() && (mode === 'new' || selectedId !== null)
 
   return (
     <div
@@ -36,14 +55,56 @@ function SaveModal({ onConfirm, onCancel }: SaveModalProps) {
       <div className="bg-card-bg border border-card-border rounded-3xl p-6 w-full max-w-sm shadow-2xl animate-slide-up">
         <h2 className="text-lg font-bold text-ember font-rubik mb-4">{t('saveModalTitle')}</h2>
 
+        {/* Mode tabs — only show if there are existing lists */}
+        {savedLists.length > 0 && (
+          <div className="flex gap-2 mb-4" dir="ltr">
+            <button
+              onClick={() => { setMode('new'); setSelectedId(null) }}
+              className={`flex-1 py-2 rounded-xl text-sm font-rubik font-semibold transition-all ${
+                mode === 'new' ? 'bg-ember text-white' : 'bg-charcoal text-cream/50 hover:text-cream'
+              }`}
+            >
+              {t('saveModalNew')}
+            </button>
+            <button
+              onClick={() => setMode('overwrite')}
+              className={`flex-1 py-2 rounded-xl text-sm font-rubik font-semibold transition-all ${
+                mode === 'overwrite' ? 'bg-ember text-white' : 'bg-charcoal text-cream/50 hover:text-cream'
+              }`}
+            >
+              {t('saveModalOverwrite')}
+            </button>
+          </div>
+        )}
+
+        {/* Existing lists picker */}
+        {mode === 'overwrite' && (
+          <div className="mb-4 max-h-44 overflow-y-auto space-y-1.5 rounded-2xl border border-card-border p-2">
+            {savedLists.map((list) => (
+              <button
+                key={list.id}
+                onClick={() => selectList(list)}
+                className={`w-full text-start px-3 py-2.5 rounded-xl text-sm font-rubik transition-colors ${
+                  selectedId === list.id
+                    ? 'bg-ember/20 text-ember border border-ember/40'
+                    : 'text-cream/70 hover:bg-card-border hover:text-cream'
+                }`}
+              >
+                {list.name}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Name input */}
         <label className="block text-cream/70 text-sm font-rubik mb-1">{t('listName')}</label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder={t('listNamePlaceholder')}
-          autoFocus
-          onKeyDown={(e) => e.key === 'Enter' && name.trim() && onConfirm(name.trim())}
+          autoFocus={mode === 'new'}
+          onKeyDown={(e) => e.key === 'Enter' && canSubmit && handleConfirm()}
           className="w-full bg-charcoal border border-card-border rounded-xl px-4 py-3 text-cream font-rubik text-sm focus:outline-none focus:border-ember transition-colors mb-5"
         />
 
@@ -55,8 +116,8 @@ function SaveModal({ onConfirm, onCancel }: SaveModalProps) {
             {t('cancel')}
           </button>
           <button
-            onClick={() => name.trim() && onConfirm(name.trim())}
-            disabled={!name.trim()}
+            onClick={handleConfirm}
+            disabled={!canSubmit}
             className="flex-1 py-3 bg-ember hover:bg-ember/90 text-white rounded-2xl text-sm font-rubik font-bold transition-colors disabled:opacity-40 shadow-md shadow-ember/20"
           >
             {t('saveConfirm')}
@@ -121,11 +182,11 @@ function AuthenticatedApp({ user, logout }: AuthenticatedAppProps) {
 
   const handleSave = () => setShowSaveModal(true)
 
-  const handleSaveConfirm = async (name: string) => {
+  const handleSaveConfirm = async (name: string, existingId?: string) => {
     if (!guests) return
     setShowSaveModal(false)
     setShareLoading(true)
-    const shareId = await saveList(name, guests, items)
+    const shareId = await saveList(name, guests, items, existingId)
     if (shareId) {
       const url = `${window.location.origin}/share/${shareId}`
       setShareUrl(url)
@@ -215,7 +276,11 @@ function AuthenticatedApp({ user, logout }: AuthenticatedAppProps) {
       )}
 
       {showSaveModal && (
-        <SaveModal onConfirm={handleSaveConfirm} onCancel={() => setShowSaveModal(false)} />
+        <SaveModal
+          onConfirm={handleSaveConfirm}
+          onCancel={() => setShowSaveModal(false)}
+          savedLists={savedLists}
+        />
       )}
 
       {/* Toast */}

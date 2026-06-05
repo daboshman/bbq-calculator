@@ -3,6 +3,7 @@ import {
   collection,
   doc,
   addDoc,
+  updateDoc,
   deleteDoc,
   getDocs,
   getDoc,
@@ -78,27 +79,55 @@ export function useFirestore(user: User | null) {
   const saveList = async (
     name: string,
     guestCounts: GuestCounts,
-    items: ShoppingItem[]
+    items: ShoppingItem[],
+    existingId?: string
   ): Promise<string | null> => {
     if (!user) return null
     setLoading(true)
     setError(null)
     try {
-      const shareId = generateShareId()
       const now = serverTimestamp()
+      const savedAt = new Date()
+      let docId: string
+      let shareId: string
 
-      const docRef = await addDoc(collection(db, 'lists', user.uid, 'savedLists'), {
-        name,
-        guestCounts,
-        items,
-        shareId,
-        createdAt: now,
-        updatedAt: now,
-      })
+      if (existingId) {
+        // Overwrite existing — preserve shareId and createdAt
+        const existing = savedLists.find((l) => l.id === existingId)
+        shareId = existing?.shareId ?? generateShareId()
+        docId = existingId
+        await updateDoc(doc(db, 'lists', user.uid, 'savedLists', existingId), {
+          name,
+          guestCounts,
+          items,
+          shareId,
+          updatedAt: now,
+        })
+        setSavedLists((prev) =>
+          prev.map((l) =>
+            l.id === existingId ? { ...l, name, guestCounts, items, updatedAt: savedAt } : l
+          )
+        )
+      } else {
+        shareId = generateShareId()
+        const docRef = await addDoc(collection(db, 'lists', user.uid, 'savedLists'), {
+          name,
+          guestCounts,
+          items,
+          shareId,
+          createdAt: now,
+          updatedAt: now,
+        })
+        docId = docRef.id
+        setSavedLists((prev) => [
+          { id: docId, name, guestCounts, items, shareId, createdAt: savedAt, updatedAt: savedAt },
+          ...prev,
+        ])
+      }
 
-      // Store a public snapshot for share links
+      // Update public share snapshot
       await setDoc(doc(db, 'publicShares', shareId), {
-        listId: docRef.id,
+        listId: docId,
         userId: user.uid,
         listName: name,
         guestCounts,
@@ -107,19 +136,6 @@ export function useFirestore(user: User | null) {
         createdAt: now,
       })
 
-      // Optimistically add to local state — serverTimestamp() pending writes
-      // cause an immediate getDocs to return 0 results, wiping the list.
-      const savedAt = new Date()
-      const newEntry: SavedList = {
-        id: docRef.id,
-        name,
-        guestCounts,
-        items,
-        shareId,
-        createdAt: savedAt,
-        updatedAt: savedAt,
-      }
-      setSavedLists((prev) => [newEntry, ...prev])
       showToast('listSaved')
       return shareId
     } catch {
