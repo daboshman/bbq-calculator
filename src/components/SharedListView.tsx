@@ -77,6 +77,8 @@ export default function SharedListView({ shareId }: Props) {
           onUpdateQty={() => {}}
           onResetItem={() => {}}
           onTogglePurchased={() => {}}
+          onRemove={() => {}}
+          onAddItem={() => {}}
           onSave={() => {}}
           onShare={() => {}}
           readOnly

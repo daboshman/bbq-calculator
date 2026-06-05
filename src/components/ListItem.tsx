@@ -7,6 +7,7 @@ interface Props {
   onUpdateQty: (id: string, delta: number) => void
   onReset: (id: string) => void
   onTogglePurchased: (id: string) => void
+  onRemove: (id: string) => void
   readOnly?: boolean
 }
 
@@ -20,14 +21,17 @@ export default function ListItem({
   onUpdateQty,
   onReset,
   onTogglePurchased,
+  onRemove,
   readOnly = false,
 }: Props) {
   const { t } = useI18n()
   const isModified = item.currentQty !== item.calculatedQty
+  const displayName = item.customName ?? t(item.nameKey as TranslationKey)
+  const displayUnit = item.customUnit ?? t(item.unitKey as TranslationKey)
 
   return (
     <div
-      className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-200 ${
+      className={`flex items-center gap-2 p-3 rounded-xl transition-all duration-200 ${
         item.purchased ? 'opacity-50 bg-charcoal/30' : 'bg-charcoal hover:bg-card-border/40'
       }`}
     >
@@ -56,11 +60,11 @@ export default function ListItem({
           item.purchased ? 'line-through text-cream/40' : 'text-cream'
         }`}
       >
-        {t(item.nameKey as TranslationKey)}
+        {displayName}
       </span>
 
       {/* Quantity controls */}
-      <div className="flex items-center gap-2 flex-shrink-0">
+      <div className="flex rtl:flex-row-reverse items-center gap-1.5 flex-shrink-0">
         {!readOnly && (
           <button
             onClick={() => onUpdateQty(item.id, -1)}
@@ -72,14 +76,12 @@ export default function ListItem({
         )}
 
         <span
-          className={`text-center font-bold font-rubik text-sm min-w-[72px] ${
+          className={`text-center font-bold font-rubik text-sm min-w-[68px] ${
             isModified ? 'text-amber-400' : 'text-cream'
           }`}
         >
           {formatQty(item.currentQty)}{' '}
-          <span className="font-normal text-xs opacity-70">
-            {t(item.unitKey as TranslationKey)}
-          </span>
+          <span className="font-normal text-xs opacity-70">{displayUnit}</span>
         </span>
 
         {!readOnly && (
@@ -92,14 +94,25 @@ export default function ListItem({
         )}
       </div>
 
-      {/* Reset button */}
-      {!readOnly && isModified && (
+      {/* Reset button (only for modified calculated items) */}
+      {!readOnly && isModified && !item.isCustom && (
         <button
           onClick={() => onReset(item.id)}
           title={t('resetItem')}
           className="text-cream/40 hover:text-amber-400 text-lg leading-none transition-colors flex-shrink-0"
         >
           ↺
+        </button>
+      )}
+
+      {/* Remove button */}
+      {!readOnly && (
+        <button
+          onClick={() => onRemove(item.id)}
+          title={t('removeListItem')}
+          className="text-cream/20 hover:text-red-400 text-lg leading-none transition-colors flex-shrink-0 w-6 text-center"
+        >
+          ×
         </button>
       )}
     </div>

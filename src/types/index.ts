@@ -8,6 +8,10 @@ export interface MeatPortions {
   chickenPerKid: number
   steakPerAdult: number
   steakPerKid: number
+  hamburgersPerAdult: number
+  hamburgersPerKid: number
+  sausagesPerAdult: number
+  sausagesPerKid: number
 }
 
 export const defaultMeatPortions: MeatPortions = {
@@ -15,6 +19,10 @@ export const defaultMeatPortions: MeatPortions = {
   chickenPerKid: 2,
   steakPerAdult: 300,
   steakPerKid: 150,
+  hamburgersPerAdult: 2,
+  hamburgersPerKid: 1,
+  sausagesPerAdult: 2,
+  sausagesPerKid: 2,
 }
 
 export interface DrinkPortions {
@@ -50,10 +58,13 @@ export interface ShoppingItem {
   id: string
   category: Category
   nameKey: string
+  customName?: string
   calculatedQty: number
   currentQty: number
   unitKey: string
+  customUnit?: string
   purchased: boolean
+  isCustom?: boolean
 }
 
 export interface SavedList {

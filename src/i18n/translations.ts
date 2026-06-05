@@ -51,6 +51,16 @@ export const translations = {
     chickenPerKid: 'פרגיות לילד',
     steakPerAdult: 'סטייק למבוגר (גרם)',
     steakPerKid: 'סטייק לילד (גרם)',
+    hamburgersPerAdult: 'המבורגר למבוגר',
+    hamburgersPerKid: 'המבורגר לילד',
+    sausagesPerAdult: 'נקניקיות למבוגר',
+    sausagesPerKid: 'נקניקיות לילד',
+
+    // List editing
+    removeListItem: 'הסר',
+    addItem: 'הוסף פריט',
+    addItemName: 'שם הפריט...',
+    addItemQty: 'כמות',
 
     // Drink portions
     drinkPortionsTitle: 'כמויות שתייה לאורח',
@@ -85,6 +95,8 @@ export const translations = {
     // Items - Meat
     chicken: 'פרגיות',
     steak: 'סטייק',
+    hamburgers: 'המבורגרים',
+    sausages: 'נקניקיות',
 
     // Items - Sides
     salads: 'סלטים',
@@ -215,6 +227,16 @@ export const translations = {
     chickenPerKid: 'Chicken per kid',
     steakPerAdult: 'Steak per adult (g)',
     steakPerKid: 'Steak per kid (g)',
+    hamburgersPerAdult: 'Hamburgers per adult',
+    hamburgersPerKid: 'Hamburgers per kid',
+    sausagesPerAdult: 'Sausages per adult',
+    sausagesPerKid: 'Sausages per kid',
+
+    // List editing
+    removeListItem: 'Remove',
+    addItem: 'Add item',
+    addItemName: 'Item name...',
+    addItemQty: 'Qty',
 
     // Drink portions
     drinkPortionsTitle: 'Drinks per guest',
@@ -244,6 +266,8 @@ export const translations = {
 
     chicken: 'Chicken Thighs',
     steak: 'Steak',
+    hamburgers: 'Hamburgers',
+    sausages: 'Sausages',
 
     salads: 'Salads',
     hummus: 'Hummus',
@@ -361,6 +385,16 @@ export const translations = {
     chickenPerKid: 'Pollo por niño',
     steakPerAdult: 'Filete por adulto (g)',
     steakPerKid: 'Filete por niño (g)',
+    hamburgersPerAdult: 'Hamburguesas por adulto',
+    hamburgersPerKid: 'Hamburguesas por niño',
+    sausagesPerAdult: 'Salchichas por adulto',
+    sausagesPerKid: 'Salchichas por niño',
+
+    // List editing
+    removeListItem: 'Eliminar',
+    addItem: 'Agregar artículo',
+    addItemName: 'Nombre del artículo...',
+    addItemQty: 'Cant.',
 
     // Drink portions
     drinkPortionsTitle: 'Bebidas por invitado',
@@ -391,6 +425,8 @@ export const translations = {
 
     chicken: 'Muslos de pollo',
     steak: 'Filete',
+    hamburgers: 'Hamburguesas',
+    sausages: 'Salchichas',
 
     salads: 'Ensaladas',
     hummus: 'Hummus',

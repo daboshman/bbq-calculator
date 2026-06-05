@@ -97,7 +97,7 @@ interface AuthenticatedAppProps {
 function AuthenticatedApp({ user, logout }: AuthenticatedAppProps) {
   const { t } = useI18n()
 
-  const { items, hasCalculated, calculate, updateItemQty, resetItemQty, togglePurchased, loadItems, resetAll } =
+  const { items, hasCalculated, calculate, updateItemQty, resetItemQty, togglePurchased, removeItem, addCustomItem, loadItems, resetAll } =
     useCalculator()
 
   const { savedLists, saveList, deleteList, toast } = useFirestore(user)
@@ -190,6 +190,8 @@ function AuthenticatedApp({ user, logout }: AuthenticatedAppProps) {
               onUpdateQty={updateItemQty}
               onResetItem={resetItemQty}
               onTogglePurchased={togglePurchased}
+              onRemove={removeItem}
+              onAddItem={addCustomItem}
               onSave={handleSave}
               onShare={handleShare}
               shareUrl={shareUrl}

@@ -64,6 +64,12 @@ export function calculateItems(guests: GuestCounts): ShoppingItem[] {
   const steakQty = meatAdults * p.steakPerAdult + meatKids * p.steakPerKid
   if (steakQty > 0) items.push(makeItem('steak', 'meat', 'steak', steakQty, 'unitGrams'))
 
+  const hamburgerQty = meatAdults * p.hamburgersPerAdult + meatKids * p.hamburgersPerKid
+  if (hamburgerQty > 0) items.push(makeItem('hamburgers', 'meat', 'hamburgers', hamburgerQty, 'unitPieces'))
+
+  const sausageQty = meatAdults * p.sausagesPerAdult + meatKids * p.sausagesPerKid
+  if (sausageQty > 0) items.push(makeItem('sausages', 'meat', 'sausages', sausageQty, 'unitPieces'))
+
   // ── SIDES ─────────────────────────────────────────────────────────────────
   const saladQty = sidesAdults * 150 + sidesKids * 80 + vegBonus * 50
   if (saladQty > 0) items.push(makeItem('salads', 'sides', 'salads', saladQty, 'unitGrams'))
@@ -157,6 +163,36 @@ export function useCalculator() {
     )
   }, [])
 
+  const removeItem = useCallback((id: string) => {
+    setItems((prev) => prev.filter((item) => item.id !== id))
+  }, [])
+
+  const addCustomItem = useCallback(
+    (category: Category, name: string, qty: number, unit: string) => {
+      const newItem: ShoppingItem = {
+        id: crypto.randomUUID(),
+        category,
+        nameKey: '',
+        customName: name,
+        calculatedQty: qty,
+        currentQty: qty,
+        unitKey: '',
+        customUnit: unit,
+        purchased: false,
+        isCustom: true,
+      }
+      setItems((prev) => {
+        // Insert after the last item in the same category
+        const lastIdx = prev.map((i) => i.category).lastIndexOf(category)
+        if (lastIdx === -1) return [...prev, newItem]
+        const next = [...prev]
+        next.splice(lastIdx + 1, 0, newItem)
+        return next
+      })
+    },
+    []
+  )
+
   const loadItems = useCallback((newItems: ShoppingItem[]) => {
     setItems(newItems)
     setHasCalculated(true)
@@ -174,6 +210,8 @@ export function useCalculator() {
     updateItemQty,
     resetItemQty,
     togglePurchased,
+    removeItem,
+    addCustomItem,
     loadItems,
     resetAll,
   }

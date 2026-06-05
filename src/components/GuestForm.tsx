@@ -339,6 +339,10 @@ export default function GuestForm({ onCalculate, initialGuests }: Props) {
             <PortionRow label={t('chickenPerKid')} value={portions.chickenPerKid} unit={t('unitPieces')} step={1} min={1} onChange={(v) => updatePortion('chickenPerKid', v)} />
             <PortionRow label={t('steakPerAdult')} value={portions.steakPerAdult} unit={t('unitGrams')} step={50} min={50} onChange={(v) => updatePortion('steakPerAdult', v)} />
             <PortionRow label={t('steakPerKid')} value={portions.steakPerKid} unit={t('unitGrams')} step={50} min={50} onChange={(v) => updatePortion('steakPerKid', v)} />
+            <PortionRow label={t('hamburgersPerAdult')} value={portions.hamburgersPerAdult} unit={t('unitPieces')} step={1} min={0} onChange={(v) => updatePortion('hamburgersPerAdult', v)} />
+            <PortionRow label={t('hamburgersPerKid')} value={portions.hamburgersPerKid} unit={t('unitPieces')} step={1} min={0} onChange={(v) => updatePortion('hamburgersPerKid', v)} />
+            <PortionRow label={t('sausagesPerAdult')} value={portions.sausagesPerAdult} unit={t('unitPieces')} step={1} min={0} onChange={(v) => updatePortion('sausagesPerAdult', v)} />
+            <PortionRow label={t('sausagesPerKid')} value={portions.sausagesPerKid} unit={t('unitPieces')} step={1} min={0} onChange={(v) => updatePortion('sausagesPerKid', v)} />
           </div>
         )}
       </div>

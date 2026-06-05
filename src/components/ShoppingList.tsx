@@ -15,12 +15,22 @@ const CATEGORIES: { id: Category; labelKey: TranslationKey }[] = [
   { id: 'equipment', labelKey: 'catEquipment' },
 ]
 
+const UNIT_OPTIONS: TranslationKey[] = [
+  'unitPieces',
+  'unitGrams',
+  'unitKg',
+  'unitLiters',
+  'unitBottles',
+]
+
 interface Props {
   items: ShoppingItem[]
   allergyGuests: AllergyGuest[]
   onUpdateQty: (id: string, delta: number) => void
   onResetItem: (id: string) => void
   onTogglePurchased: (id: string) => void
+  onRemove: (id: string) => void
+  onAddItem: (category: Category, name: string, qty: number, unit: string) => void
   onSave: () => void
   onShare: () => void
   shareUrl?: string | null
@@ -35,6 +45,8 @@ export default function ShoppingList({
   onUpdateQty,
   onResetItem,
   onTogglePurchased,
+  onRemove,
+  onAddItem,
   onSave,
   onShare,
   shareUrl,
@@ -44,6 +56,10 @@ export default function ShoppingList({
 }: Props) {
   const { t } = useI18n()
   const [copied, setCopied] = useState(false)
+  const [addingTo, setAddingTo] = useState<Category | null>(null)
+  const [newName, setNewName] = useState('')
+  const [newQty, setNewQty] = useState(1)
+  const [newUnitKey, setNewUnitKey] = useState<TranslationKey>('unitPieces')
 
   const groupedItems = CATEGORIES.reduce(
     (acc, cat) => {
@@ -62,6 +78,19 @@ export default function ShoppingList({
     } catch {
       // fallback
     }
+  }
+
+  function openAddForm(cat: Category) {
+    setAddingTo(cat)
+    setNewName('')
+    setNewQty(1)
+    setNewUnitKey('unitPieces')
+  }
+
+  function submitAdd() {
+    if (!addingTo || !newName.trim()) return
+    onAddItem(addingTo, newName.trim(), newQty, t(newUnitKey))
+    setAddingTo(null)
   }
 
   const purchasedCount = items.filter((i) => i.purchased).length
@@ -155,25 +184,86 @@ export default function ShoppingList({
       {/* Item categories */}
       {CATEGORIES.map((cat) => {
         const catItems = groupedItems[cat.id]
-        if (!catItems || catItems.length === 0) return null
+        const hasItems = catItems && catItems.length > 0
+        const isAdding = addingTo === cat.id
+
+        if (!hasItems && readOnly) return null
 
         return (
           <div key={cat.id} className="mb-5 last:mb-0">
             <h3 className="text-sm font-bold text-cream/80 font-rubik mb-2 pb-2 border-b border-card-border">
               {t(cat.labelKey)}
             </h3>
-            <div className="space-y-1.5">
-              {catItems.map((item) => (
-                <ListItem
-                  key={item.id}
-                  item={item}
-                  onUpdateQty={onUpdateQty}
-                  onReset={onResetItem}
-                  onTogglePurchased={onTogglePurchased}
-                  readOnly={readOnly}
-                />
-              ))}
-            </div>
+
+            {hasItems && (
+              <div className="space-y-1.5 mb-2">
+                {catItems.map((item) => (
+                  <ListItem
+                    key={item.id}
+                    item={item}
+                    onUpdateQty={onUpdateQty}
+                    onReset={onResetItem}
+                    onTogglePurchased={onTogglePurchased}
+                    onRemove={onRemove}
+                    readOnly={readOnly}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Add item form */}
+            {!readOnly && (
+              isAdding ? (
+                <div className="flex items-center gap-2 mt-2 animate-fade-in" dir="ltr">
+                  <input
+                    autoFocus
+                    type="text"
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') submitAdd(); if (e.key === 'Escape') setAddingTo(null) }}
+                    placeholder={t('addItemName')}
+                    className="flex-1 bg-charcoal border border-card-border rounded-xl px-3 py-2 text-cream text-sm font-rubik focus:outline-none focus:border-ember transition-colors"
+                  />
+                  <input
+                    type="number"
+                    value={newQty}
+                    min={1}
+                    onChange={(e) => setNewQty(Math.max(1, parseInt(e.target.value) || 1))}
+                    className="w-14 bg-charcoal border border-card-border rounded-xl px-2 py-2 text-cream text-sm font-rubik text-center focus:outline-none focus:border-ember transition-colors"
+                  />
+                  <select
+                    value={newUnitKey}
+                    onChange={(e) => setNewUnitKey(e.target.value as TranslationKey)}
+                    className="bg-charcoal border border-card-border rounded-xl px-2 py-2 text-cream text-sm font-rubik focus:outline-none focus:border-ember transition-colors"
+                  >
+                    {UNIT_OPTIONS.map((u) => (
+                      <option key={u} value={u}>{t(u)}</option>
+                    ))}
+                  </select>
+                  <button
+                    onClick={submitAdd}
+                    disabled={!newName.trim()}
+                    className="w-8 h-8 rounded-xl bg-ember disabled:opacity-40 text-white flex items-center justify-center text-lg font-bold leading-none transition-colors hover:bg-ember/80"
+                  >
+                    ✓
+                  </button>
+                  <button
+                    onClick={() => setAddingTo(null)}
+                    className="w-8 h-8 rounded-xl bg-charcoal border border-card-border text-cream/50 hover:text-cream flex items-center justify-center text-lg leading-none transition-colors"
+                  >
+                    ×
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => openAddForm(cat.id)}
+                  className="flex items-center gap-1.5 text-cream/30 hover:text-cream/70 text-xs font-rubik transition-colors mt-1 py-1"
+                >
+                  <span className="text-base leading-none">+</span>
+                  <span>{t('addItem')}</span>
+                </button>
+              )
+            )}
           </div>
         )
       })}
