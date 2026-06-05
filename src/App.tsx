@@ -103,6 +103,7 @@ function AuthenticatedApp({ user, logout }: AuthenticatedAppProps) {
   const { savedLists, saveList, deleteList, toast } = useFirestore(user)
 
   const [guests, setGuests] = useState<GuestCounts | null>(null)
+  const [guestFormKey, setGuestFormKey] = useState(0)
   const [showSavedLists, setShowSavedLists] = useState(false)
   const [showSaveModal, setShowSaveModal] = useState(false)
   const [shareUrl, setShareUrl] = useState<string | null>(null)
@@ -142,6 +143,7 @@ function AuthenticatedApp({ user, logout }: AuthenticatedAppProps) {
 
   const handleLoadList = (list: SavedList) => {
     setGuests(list.guestCounts)
+    setGuestFormKey((k) => k + 1)
     loadItems(list.items)
     if (list.shareId) {
       setShareUrl(`${window.location.origin}/share/${list.shareId}`)
@@ -151,6 +153,7 @@ function AuthenticatedApp({ user, logout }: AuthenticatedAppProps) {
   const handleNewList = () => {
     resetAll()
     setGuests(null)
+    setGuestFormKey((k) => k + 1)
     setShareUrl(null)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -167,7 +170,7 @@ function AuthenticatedApp({ user, logout }: AuthenticatedAppProps) {
       <main className="max-w-4xl mx-auto px-4 py-6 gap-6 flex flex-col lg:grid lg:grid-cols-2 lg:items-start">
         {/* Guest form */}
         <div className="lg:sticky lg:top-20">
-          <GuestForm onCalculate={handleCalculate} initialGuests={guests ?? undefined} />
+          <GuestForm key={guestFormKey} onCalculate={handleCalculate} initialGuests={guests ?? undefined} />
 
           {hasCalculated && (
             <div className="mt-3 text-center">
