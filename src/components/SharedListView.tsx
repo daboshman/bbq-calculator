@@ -12,6 +12,7 @@ interface Props {
 export default function SharedListView({ shareId }: Props) {
   const { t } = useI18n()
   const [shareData, setShareData] = useState<PublicShare | null>(null)
+  const [localItems, setLocalItems] = useState(shareData?.items ?? [])
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
 
@@ -19,12 +20,19 @@ export default function SharedListView({ shareId }: Props) {
     getPublicShare(shareId).then((data) => {
       if (data) {
         setShareData(data)
+        setLocalItems(data.items)
       } else {
         setNotFound(true)
       }
       setLoading(false)
     })
   }, [shareId])
+
+  function togglePurchased(id: string) {
+    setLocalItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, purchased: !item.purchased } : item))
+    )
+  }
 
   if (loading) {
     return (
@@ -72,11 +80,11 @@ export default function SharedListView({ shareId }: Props) {
 
       <main className="max-w-2xl mx-auto px-4 py-6">
         <ShoppingList
-          items={shareData.items}
+          items={localItems}
           allergyGuests={shareData.guestCounts?.allergyGuests ?? []}
           onUpdateQty={() => {}}
           onResetItem={() => {}}
-          onTogglePurchased={() => {}}
+          onTogglePurchased={togglePurchased}
           onRemove={() => {}}
           onAddItem={() => {}}
           onSave={() => {}}

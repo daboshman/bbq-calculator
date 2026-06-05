@@ -35,24 +35,22 @@ export default function ListItem({
         item.purchased ? 'opacity-50 bg-charcoal/30' : 'bg-charcoal hover:bg-card-border/40'
       }`}
     >
-      {/* Checkbox */}
-      {!readOnly && (
-        <button
-          onClick={() => onTogglePurchased(item.id)}
-          aria-label={t('markPurchased')}
-          className={`w-6 h-6 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
-            item.purchased
-              ? 'bg-green-600 border-green-600 text-white'
-              : 'border-card-border hover:border-ember'
-          }`}
-        >
-          {item.purchased && (
-            <svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="1,6 4,9 11,2" />
-            </svg>
-          )}
-        </button>
-      )}
+      {/* Checkbox — always visible so shared lists can be checked off */}
+      <button
+        onClick={() => onTogglePurchased(item.id)}
+        aria-label={t('markPurchased')}
+        className={`w-6 h-6 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
+          item.purchased
+            ? 'bg-green-600 border-green-600 text-white'
+            : 'border-card-border hover:border-ember'
+        }`}
+      >
+        {item.purchased && (
+          <svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="1,6 4,9 11,2" />
+          </svg>
+        )}
+      </button>
 
       {/* Item name */}
       <span

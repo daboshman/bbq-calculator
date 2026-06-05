@@ -168,7 +168,7 @@ export const translations = {
     // Share
     shareTitle: 'רשימת קניות משותפת',
     sharedBy: 'שותף על ידי',
-    shareReadOnly: 'רשימה זו היא לצפייה בלבד',
+    shareReadOnly: 'סמן פריטים בזמן הקנייה',
     shareSuccess: 'הרשימה נשמרה! שתף אותה:',
     shareViaWhatsApp: 'שלח בוואטסאפ',
     shareViaEmail: 'שלח במייל',
@@ -330,7 +330,7 @@ export const translations = {
 
     shareTitle: 'Shared Shopping List',
     sharedBy: 'Shared by',
-    shareReadOnly: 'This list is read-only',
+    shareReadOnly: 'Tap items to check them off',
     shareSuccess: 'List saved! Share it:',
     shareViaWhatsApp: 'Send via WhatsApp',
     shareViaEmail: 'Send via Email',
@@ -491,7 +491,7 @@ export const translations = {
 
     shareTitle: 'Lista de compras compartida',
     sharedBy: 'Compartido por',
-    shareReadOnly: 'Esta lista es de solo lectura',
+    shareReadOnly: 'Toca artículos para marcarlos',
     shareSuccess: '¡Lista guardada! Compártela:',
     shareViaWhatsApp: 'Enviar por WhatsApp',
     shareViaEmail: 'Enviar por Email',
