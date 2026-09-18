@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npx tsc --noEmit -p tsconfig.json)",
+      "PowerShell(npx vite build 2>$null)"
+    ]
+  }
+}

@@ -35,7 +35,7 @@ function GuestStepper({ emoji, labelKey, descKey, value, onChange, max, badge }:
   const increment = () => onChange(max !== undefined ? Math.min(max, value + 1) : value + 1)
 
   return (
-    <div className="bg-charcoal rounded-2xl p-4 flex flex-col gap-3">
+    <div className="bg-charcoal rounded-2xl p-3 sm:p-4 flex flex-col gap-3">
       <div className="flex items-start gap-2">
         <span className="text-2xl leading-none">{emoji}</span>
         <div className="flex-1 min-w-0">
@@ -51,12 +51,17 @@ function GuestStepper({ emoji, labelKey, descKey, value, onChange, max, badge }:
         </div>
       </div>
 
-      {/* rtl:flex-row-reverse reverses the RTL flex axis back to LTR for the stepper controls */}
-      <div className="flex rtl:flex-row-reverse items-center justify-between gap-2">
+      {/* dir="ltr" keeps − / value / + in a fixed visual order in both RTL and LTR.
+          minmax(0,1fr) lets the number input shrink — a bare 1fr keeps its intrinsic
+          width (~20ch) and pushes the + button outside the card. */}
+      <div
+        dir="ltr"
+        className="grid grid-cols-[2rem_minmax(0,1fr)_2rem] sm:grid-cols-[2.25rem_minmax(0,1fr)_2.25rem] items-center gap-1.5 sm:gap-2"
+      >
         <button
           onClick={decrement}
           disabled={value === 0}
-          className="w-9 h-9 rounded-xl bg-card-border hover:bg-ember/30 text-cream disabled:opacity-25 transition-all duration-150 flex items-center justify-center font-bold text-lg leading-none"
+          className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-card-border hover:bg-ember/30 text-cream disabled:opacity-25 transition-all duration-150 flex items-center justify-center font-bold text-lg leading-none"
           aria-label="-"
         >
           −
@@ -64,6 +69,7 @@ function GuestStepper({ emoji, labelKey, descKey, value, onChange, max, badge }:
 
         <input
           type="number"
+          inputMode="numeric"
           value={value}
           min={0}
           max={max}
@@ -71,13 +77,13 @@ function GuestStepper({ emoji, labelKey, descKey, value, onChange, max, badge }:
             const v = parseInt(e.target.value, 10)
             if (!isNaN(v)) onChange(Math.max(0, max !== undefined ? Math.min(max, v) : v))
           }}
-          className="flex-1 bg-transparent text-center text-cream font-bold text-xl font-rubik focus:outline-none"
+          className="w-full min-w-0 bg-transparent text-center text-cream font-bold text-xl font-rubik focus:outline-none"
         />
 
         <button
           onClick={increment}
           disabled={max !== undefined && value >= max}
-          className="w-9 h-9 rounded-xl bg-card-border hover:bg-ember/30 text-cream disabled:opacity-25 transition-all duration-150 flex items-center justify-center font-bold text-lg leading-none"
+          className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-card-border hover:bg-ember/30 text-cream disabled:opacity-25 transition-all duration-150 flex items-center justify-center font-bold text-lg leading-none"
           aria-label="+"
         >
           +
@@ -101,21 +107,24 @@ function PortionRow({ label, value, unit, step, min, onChange }: PortionRowProps
   const display = Number.isInteger(value) ? value : parseFloat(value.toFixed(2))
   return (
     <div className="flex items-center justify-between gap-2 py-2 border-b border-card-border/40 last:border-0">
-      <span className="text-cream/70 text-xs font-rubik flex-1">{label}</span>
-      <div className="flex rtl:flex-row-reverse items-center gap-2">
+      <span className="text-cream/70 text-xs font-rubik flex-1 min-w-0">{label}</span>
+      {/* dir="ltr" pins − / value / + to a fixed visual order in both RTL and LTR */}
+      <div dir="ltr" className="flex items-center gap-2 shrink-0">
         <button
           onClick={() => onChange(Math.max(min, parseFloat((value - step).toFixed(2))))}
           disabled={value <= min}
-          className="w-7 h-7 rounded-lg bg-card-border hover:bg-ember/30 text-cream disabled:opacity-25 transition-all flex items-center justify-center font-bold text-sm leading-none"
+          className="w-7 h-7 shrink-0 rounded-lg bg-card-border hover:bg-ember/30 text-cream disabled:opacity-25 transition-all flex items-center justify-center font-bold text-sm leading-none"
+          aria-label="-"
         >
           −
         </button>
-        <span className="w-16 text-center text-cream font-bold text-sm font-rubik">
+        <span className="w-16 shrink-0 text-center text-cream font-bold text-sm font-rubik">
           {display} <span className="text-cream/40 font-normal">{unit}</span>
         </span>
         <button
           onClick={() => onChange(parseFloat((value + step).toFixed(2)))}
-          className="w-7 h-7 rounded-lg bg-card-border hover:bg-ember/30 text-cream transition-all flex items-center justify-center font-bold text-sm leading-none"
+          className="w-7 h-7 shrink-0 rounded-lg bg-card-border hover:bg-ember/30 text-cream transition-all flex items-center justify-center font-bold text-sm leading-none"
+          aria-label="+"
         >
           +
         </button>
