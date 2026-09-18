@@ -344,10 +344,10 @@ export default function GuestForm({ onCalculate, initialGuests }: Props) {
         {showMeatPortions && (
           <div className="mt-3 bg-charcoal rounded-2xl px-4 py-2 animate-fade-in">
             <p className="text-ember text-xs font-rubik font-semibold mb-2">{t('portionsTitle')}</p>
-            <PortionRow label={t('chickenPerAdult')} value={portions.chickenPerAdult} unit={t('unitPieces')} step={1} min={1} onChange={(v) => updatePortion('chickenPerAdult', v)} />
-            <PortionRow label={t('chickenPerKid')} value={portions.chickenPerKid} unit={t('unitPieces')} step={1} min={1} onChange={(v) => updatePortion('chickenPerKid', v)} />
-            <PortionRow label={t('steakPerAdult')} value={portions.steakPerAdult} unit={t('unitGrams')} step={50} min={50} onChange={(v) => updatePortion('steakPerAdult', v)} />
-            <PortionRow label={t('steakPerKid')} value={portions.steakPerKid} unit={t('unitGrams')} step={50} min={50} onChange={(v) => updatePortion('steakPerKid', v)} />
+            <PortionRow label={t('chickenPerAdult')} value={portions.chickenPerAdult} unit={t('unitPieces')} step={1} min={0} onChange={(v) => updatePortion('chickenPerAdult', v)} />
+            <PortionRow label={t('chickenPerKid')} value={portions.chickenPerKid} unit={t('unitPieces')} step={1} min={0} onChange={(v) => updatePortion('chickenPerKid', v)} />
+            <PortionRow label={t('steakPerAdult')} value={portions.steakPerAdult} unit={t('unitGrams')} step={50} min={0} onChange={(v) => updatePortion('steakPerAdult', v)} />
+            <PortionRow label={t('steakPerKid')} value={portions.steakPerKid} unit={t('unitGrams')} step={50} min={0} onChange={(v) => updatePortion('steakPerKid', v)} />
             <PortionRow label={t('hamburgersPerAdult')} value={portions.hamburgersPerAdult} unit={t('unitPieces')} step={1} min={0} onChange={(v) => updatePortion('hamburgersPerAdult', v)} />
             <PortionRow label={t('hamburgersPerKid')} value={portions.hamburgersPerKid} unit={t('unitPieces')} step={1} min={0} onChange={(v) => updatePortion('hamburgersPerKid', v)} />
             <PortionRow label={t('sausagesPerAdult')} value={portions.sausagesPerAdult} unit={t('unitPieces')} step={1} min={0} onChange={(v) => updatePortion('sausagesPerAdult', v)} />
